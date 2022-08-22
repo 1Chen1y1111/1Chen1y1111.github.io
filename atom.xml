@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>CavsCy&#39;s Blog</title>
+  
+  <subtitle>改变的确很难,但结果值得冒险</subtitle>
+  <link href="http://example.com/atom.xml" rel="self"/>
+  
+  <link href="http://example.com/"/>
+  <updated>2022-08-22T09:45:57.813Z</updated>
+  <id>http://example.com/</id>
+  
+  <author>
+    <name>1Chen1y1111</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>起笔</title>
+    <link href="http://example.com/2022/08/22/hello-world/"/>
+    <id>http://example.com/2022/08/22/hello-world/</id>
+    <published>2022-08-22T08:51:25.526Z</published>
+    <updated>2022-08-22T09:45:57.813Z</updated>
+    
+    <content type="html"><![CDATA[<p>22年盛夏里，某个平凡的傍晚</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;22年盛夏里，某个平凡的傍晚&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    <category term="起笔" scheme="http://example.com/categories/%E8%B5%B7%E7%AC%94/"/>
+    
+    
+  </entry>
+  
+</feed>
