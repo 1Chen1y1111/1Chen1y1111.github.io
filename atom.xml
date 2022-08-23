@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-08-23T13:58:10.311Z</updated>
+  <updated>2022-08-23T14:02:17.238Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Hitokoto</title>
+    <title>一言</title>
     <link href="http://example.com/2022/08/23/Hitokoto1/"/>
     <id>http://example.com/2022/08/23/Hitokoto1/</id>
     <published>2022-08-23T13:54:55.000Z</published>
-    <updated>2022-08-23T13:58:10.311Z</updated>
+    <updated>2022-08-23T14:02:17.238Z</updated>
     
     <content type="html"><![CDATA[<p>人终其一生都是自我改善的过程。</p>]]></content>
     
