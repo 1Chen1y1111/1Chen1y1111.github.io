@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="一言," />
+  <meta name="keywords" content="Javascript," />
 
 
 
@@ -81,17 +81,17 @@
 
 
 
-<meta name="description" content="弱小和无知，都不是生存的障碍，傲慢才是。">
+<meta name="description" content="CommonJs CommonJs是一种JavaScript语言的模块化规范，它通常会在服务端的nodejs上使用，项目是由多个模块组成的，模块与模块之间的调用，需要各个模块有相同规范的API，这样一来在使用的过程中不会有那么多的学习成本，并且对于单个模块来说是类聚的。 在CommonJs的模块化规范中，每一个文件就是一个模块，拥有自己独立的作用域，变量，以及方法等，对其他的模块都不可见。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一言">
-<meta property="og:url" content="http://example.com/2022/08/22/Hitokoto1-1/index.html">
+<meta property="og:title" content="前端模块化">
+<meta property="og:url" content="http://example.com/2022/11/18/%E5%89%8D%E7%AB%AF%E6%A8%A1%E5%9D%97%E5%8C%96/index.html">
 <meta property="og:site_name" content="CavsCy&#39;s Blog">
-<meta property="og:description" content="弱小和无知，都不是生存的障碍，傲慢才是。">
+<meta property="og:description" content="CommonJs CommonJs是一种JavaScript语言的模块化规范，它通常会在服务端的nodejs上使用，项目是由多个模块组成的，模块与模块之间的调用，需要各个模块有相同规范的API，这样一来在使用的过程中不会有那么多的学习成本，并且对于单个模块来说是类聚的。 在CommonJs的模块化规范中，每一个文件就是一个模块，拥有自己独立的作用域，变量，以及方法等，对其他的模块都不可见。">
 <meta property="og:locale">
-<meta property="article:published_time" content="2022-08-22T13:36:33.000Z">
-<meta property="article:modified_time" content="2022-08-24T13:45:31.061Z">
+<meta property="article:published_time" content="2022-11-18T06:03:28.000Z">
+<meta property="article:modified_time" content="2022-11-18T06:05:39.571Z">
 <meta property="article:author" content="1Chen1y1111">
-<meta property="article:tag" content="一言">
+<meta property="article:tag" content="Javascript">
 <meta name="twitter:card" content="summary">
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/2022/08/22/Hitokoto1-1/"/>
+  <link rel="canonical" href="http://example.com/2022/11/18/前端模块化/"/>
 
 
 
 
 
-  <title>一言 | CavsCy's Blog</title>
+  <title>前端模块化 | CavsCy's Blog</title>
   
 
 
@@ -265,7 +265,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/22/Hitokoto1-1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/18/%E5%89%8D%E7%AB%AF%E6%A8%A1%E5%9D%97%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="1Chen1y1111">
@@ -282,7 +282,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">一言</h1>
+          <h1 class="post-title" itemprop="name headline">前端模块化</h1>
         
 
         <div class="post-meta">
@@ -294,8 +294,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-08-22T21:36:33+08:00">
-                2022-08-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-11-18T14:03:28+08:00">
+                2022-11-18
               </time>
             
 
@@ -304,6 +304,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">Javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -332,7 +354,19 @@
       
 
       
-        <p>弱小和无知，都不是生存的障碍，傲慢才是。</p>
+        <p><strong>CommonJs</strong></p>
+<p>CommonJs是一种JavaScript语言的模块化规范，它通常会在服务端的nodejs上使用，项目是由多个模块组成的，模块与模块之间的调用，需要各个模块有相同规范的API，这样一来在使用的过程中不会有那么多的学习成本，并且对于单个模块来说是类聚的。</p>
+<p>在CommonJs的模块化规范中，每一个文件就是一个模块，拥有自己独立的作用域，变量，以及方法等，对其他的模块都不可见。</p>
+<span id="more"></span>
+<p>CommonJs规范规定，每个模块内部，module变量代表当前模块。这个变量是一个对象，它的exports属性（module.exports)是对外的接口。加载某个模块，其实是加载该模块的module.exports属性。require方法用于加载模块。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//module-a.js</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">	<span class="attr">a</span>:<span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//module-b.js</span></span><br><span class="line"><span class="keyword">var</span> ma = <span class="built_in">require</span>(<span class="string">&#x27;./module-a.js&#x27;</span>)</span><br><span class="line"><span class="keyword">var</span> b = ma.<span class="property">a</span> + <span class="number">2</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="attr">b</span>:b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Es Module</strong></p>
+<p>在Es Module中导出分为两种，单个导出(export)和默认导出(export default)，单个导出在导入时不像CommonJs一样直接把值全部导入进来了，Es Module中可以导入我想要的值，那么默认导出就是全部直接导入。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//导出变量</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> name = <span class="string">&#x27;cny&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> age = <span class="number">22</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//导出函数</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">test</span> = (<span class="params"></span>) =&gt; &#123;&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> (<span class="params"></span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//导出多个</span></span><br><span class="line"><span class="keyword">const</span> name = <span class="string">&#x27;cny&#x27;</span></span><br><span class="line"><span class="keyword">const</span> age = <span class="number">22</span></span><br><span class="line"><span class="keyword">export</span> &#123;name,age&#125;</span><br></pre></td></tr></table></figure>
+<p>export和export default 同时使用并不互相影响，只需要在导入的地方之一，如果文件里有混合导入，则必须先导入默认导出的，再导入当然导入的值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> name = <span class="string">&#x27;cny&#x27;</span></span><br><span class="line"><span class="keyword">export</span> cosnt age = <span class="number">22</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span>&#123;</span><br><span class="line">    <span class="title function_">fn</span>(<span class="params"></span>)&#123;&#125;,</span><br><span class="line">    <span class="attr">msg</span>:<span class="string">&#x27;今天天气真好&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Es Module使用的是import语法进行导入，如果要单个导入则必须使用花括号{}，花括号不代表解构赋值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//index.js</span><br><span class="line">export const name = &#x27;cny&#x27;</span><br><span class="line">export const age = 22</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import &#123;name,age&#125; from &#x27;./index.js&#x27;</span><br><span class="line"></span><br><span class="line">//如果里面全是单个导入的情况下</span><br><span class="line">import * as all from &#x27;./index.js&#x27;</span><br><span class="line">console.log(all)  //&#123;name:&#x27;cny&#x27;,age:22&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -350,7 +384,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E4%B8%80%E8%A8%80/" rel="tag"># 一言</a>
+            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
           
         </div>
       
@@ -363,8 +397,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2022/08/22/hello-world/" rel="next" title="起笔">
-                <i class="fa fa-chevron-left"></i> 起笔
+              <a href="/2022/11/16/Hooks1-2/" rel="next" title="app.use重写">
+                <i class="fa fa-chevron-left"></i> app.use重写
               </a>
             
           </div>
@@ -372,10 +406,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2022/08/23/Javascript1-1/" rel="prev" title="Javascript">
-                Javascript <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
