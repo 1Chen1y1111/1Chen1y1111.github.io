@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Prototype," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -81,17 +81,12 @@
 
 
 
-<meta name="description" content="1234567891011const name &#x3D; &quot;window&quot;const person &#x3D; &amp;#123;  name: &amp;#x27;CNY&amp;#x27;,  say(age, sex) &amp;#123;    console.log(this.name, age, sex);  &amp;#125;&amp;#125;let Person2 &#x3D; &amp;#123;  name: &amp;#x27;CY&amp;#">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Call、Bind、Apply重写">
-<meta property="og:url" content="http://example.com/2022/11/10/Prototype1-1/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CavsCy&#39;s Blog">
+<meta property="og:url" content="http://example.com/page/3/index.html">
 <meta property="og:site_name" content="CavsCy&#39;s Blog">
-<meta property="og:description" content="1234567891011const name &#x3D; &quot;window&quot;const person &#x3D; &amp;#123;  name: &amp;#x27;CNY&amp;#x27;,  say(age, sex) &amp;#123;    console.log(this.name, age, sex);  &amp;#125;&amp;#125;let Person2 &#x3D; &amp;#123;  name: &amp;#x27;CY&amp;#">
 <meta property="og:locale">
-<meta property="article:published_time" content="2022-11-10T03:03:12.629Z">
-<meta property="article:modified_time" content="2022-11-16T07:41:22.418Z">
 <meta property="article:author" content="1Chen1y1111">
-<meta property="article:tag" content="Prototype">
 <meta name="twitter:card" content="summary">
 
 
@@ -122,13 +117,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/2022/11/10/Prototype1-1/"/>
+  <link rel="canonical" href="http://example.com/page/3/"/>
 
 
 
 
 
-  <title>Call、Bind、Apply重写 | CavsCy's Blog</title>
+  <title>CavsCy's Blog</title>
   
 
 
@@ -147,7 +142,8 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -250,9 +246,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -265,7 +261,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/10/Prototype1-1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/22/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="1Chen1y1111">
@@ -282,7 +278,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Call、Bind、Apply重写</h1>
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/08/22/hello-world/" itemprop="url">起笔</a></h1>
         
 
         <div class="post-meta">
@@ -294,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-11-10T11:03:12+08:00">
-                2022-11-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-08-22T16:51:25+08:00">
+                2022-08-22
               </time>
             
 
@@ -317,8 +315,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Prototype/" itemprop="url" rel="index">
-                    <span itemprop="name">Prototype</span>
+                  <a href="/categories/%E8%B5%B7%E7%AC%94/" itemprop="url" rel="index">
+                    <span itemprop="name">起笔</span>
                   </a>
                 </span>
 
@@ -354,15 +352,12 @@
       
 
       
-        <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> name = <span class="string">&quot;window&quot;</span></span><br><span class="line"><span class="keyword">const</span> person = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;CNY&#x27;</span>,</span><br><span class="line">  <span class="title function_">say</span>(<span class="params">age, sex</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">name</span>, age, sex);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="title class_">Person2</span> = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;CY&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<p><strong>call</strong></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">MyCall</span> = <span class="keyword">function</span> (<span class="params">target, ...args</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;target: &#x27;</span>, target, ...args);</span><br><span class="line">  target = target || <span class="variable language_">window</span></span><br><span class="line">  <span class="keyword">const</span> symbolKey = <span class="title class_">Symbol</span>()</span><br><span class="line">  target[symbolKey] = <span class="variable language_">this</span></span><br><span class="line">  <span class="keyword">const</span> res = target[symbolKey](...args)  <span class="comment">//args 本身是rest参数</span></span><br><span class="line">  <span class="keyword">delete</span> target[symbolKey]</span><br><span class="line">  <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>apply</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">MyApply</span> = <span class="keyword">function</span> (<span class="params">target, ...args</span>) &#123;</span><br><span class="line">  target = target || <span class="variable language_">window</span></span><br><span class="line">  <span class="keyword">const</span> symbolKey = <span class="title class_">Symbol</span>()</span><br><span class="line">  target[symbolKey] = <span class="variable language_">this</span></span><br><span class="line">  <span class="keyword">const</span> res = target[symbolKey](...args)        <span class="comment">//args 本身是数组</span></span><br><span class="line">  <span class="keyword">delete</span> target[symbolKey]</span><br><span class="line">  <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>bind</strong></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">MyBind</span> = <span class="keyword">function</span> (<span class="params">target, ...outArgs</span>) &#123;</span><br><span class="line">  target = target || &#123;&#125;  <span class="comment">//处理边界条件</span></span><br><span class="line">  <span class="keyword">const</span> symbolKey = <span class="title class_">Symbol</span>()</span><br><span class="line">  target[symbolKey] = <span class="variable language_">this</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">...innerArgs</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> res = target[symbolKey](...outArgs, ...innerArgs)</span><br><span class="line">    <span class="comment">// delete target[symbolKey]  //不应销毁，存在多次调用情况</span></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+          
+            <p>22年盛夏里，某个平凡的傍晚</p>
 
+          
+        
       
     </div>
     
@@ -377,40 +372,14 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Prototype/" rel="tag"># Prototype</a>
-          
-        </div>
+
+      
+
       
 
       
       
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2022/10/18/TypeScropt1-2/" rel="next" title="TypeScript">
-                <i class="fa fa-chevron-left"></i> TypeScript
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2022/11/16/Hooks1-1/" rel="prev" title="CanvasBase64">
-                CanvasBase64 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -420,11 +389,14 @@
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/">&lt;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
 
 
           </div>
@@ -432,10 +404,6 @@
 
 
           
-
-  
-
-
 
         </div>
         
@@ -697,10 +665,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 
