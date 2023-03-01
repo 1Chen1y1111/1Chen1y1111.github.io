@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Components," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="CavsCy's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="富文本是管理后台一个核心的功能，但同时又是一个有很多坑的地方。最终权衡了一下选择了WangEditor。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="富文本编辑器">
+<meta property="og:url" content="http://example.com/2023/03/01/WangEditor/index.html">
+<meta property="og:site_name" content="CavsCy&#39;s Blog">
+<meta property="og:description" content="富文本是管理后台一个核心的功能，但同时又是一个有很多坑的地方。最终权衡了一下选择了WangEditor。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2023-03-01T14:40:20.000Z">
+<meta property="article:modified_time" content="2023-03-01T14:44:18.047Z">
+<meta property="article:author" content="1Chen1y1111">
+<meta property="article:tag" content="Components">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2023/03/01/WangEditor/"/>
+
+
+
+
+
+  <title>富文本编辑器 | CavsCy's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CavsCy's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">改变的确很难,但结果值得冒险</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/01/WangEditor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="1Chen1y1111">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CavsCy's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">富文本编辑器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2023-03-01T22:40:20+08:00">
+                2023-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Components/" itemprop="url" rel="index">
+                    <span itemprop="name">Components</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>富文本是管理后台一个核心的功能，但同时又是一个有很多坑的地方。最终权衡了一下选择了WangEditor。</p>
+<span id="more"></span>
+<p><strong>Vue2Demo</strong></p>
+<ul>
+<li>index.vue</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;components-container&quot;&gt;</span><br><span class="line">    &lt;div style=&quot;border: 1px solid #ccc;&quot;&gt;</span><br><span class="line">      &lt;!-- 工具栏 --&gt;</span><br><span class="line">      &lt;Toolbar style=&quot;border-bottom: 1px solid #ccc&quot; :editor=&quot;editor&quot; :default-config=&quot;toolbarConfig&quot; :mode=&quot;mode&quot; /&gt;</span><br><span class="line">      &lt;!-- 编辑器 --&gt;</span><br><span class="line">      &lt;Editor v-model=&quot;html&quot; :style=&quot;&#123; height: height &#125;&quot; style=&quot;overflow-y: hidden&quot; :default-config=&quot;editorConfig&quot; :mode=&quot;mode&quot; @onCreated=&quot;onCreated&quot; /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Vue from &#x27;vue&#x27;</span><br><span class="line">import wsCache from &#x27;@/cache&#x27;</span><br><span class="line">import &#123; Editor, Toolbar &#125; from &#x27;@wangeditor/editor-for-vue&#x27;</span><br><span class="line">import toolbarKeys from &#x27;@/views/components-demo/toolbarKeys&#x27;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;WangEditor&#x27;,</span><br><span class="line">  components: &#123; Editor, Toolbar &#125;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    id: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      default: function() &#123;</span><br><span class="line">        return &#x27;wangEditor&#x27; + +new Date() + ((Math.random() * 1000).toFixed(0) + &#x27;&#x27;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    value: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      default: &#x27;这里是placeHolder！&#x27;</span><br><span class="line">    &#125;,</span><br><span class="line">    height: &#123;</span><br><span class="line">      type: [Number, String],</span><br><span class="line">      required: false,</span><br><span class="line">      default: &#x27;360px&#x27;</span><br><span class="line">    &#125;,</span><br><span class="line">    // 是否可编辑</span><br><span class="line">    isEdit: &#123;</span><br><span class="line">      type: Boolean,</span><br><span class="line">      default: true</span><br><span class="line">    &#125;,</span><br><span class="line">    // 隐藏菜单</span><br><span class="line">    excludeKeys: &#123;</span><br><span class="line">      type: Array,</span><br><span class="line">      default: () =&gt; []</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      editor: null, // 实例</span><br><span class="line">      html: &#x27;&#x27;, // 默认内容</span><br><span class="line">      toolbarConfig: &#123;</span><br><span class="line">        toolbarKeys: toolbarKeys, // 不填即为默认配置</span><br><span class="line">        excludeKeys: this.excludeKeys // 隐藏</span><br><span class="line">      &#125;,</span><br><span class="line">      editorConfig: &#123; // 工具栏配置</span><br><span class="line">        maxLength: 300,</span><br><span class="line">        placeholder: &#x27;这里是placeHolder！&#x27;,</span><br><span class="line">        autoFocus: true,</span><br><span class="line">        readOnly: !this.isEdit, // 只读、不可编辑</span><br><span class="line">        MENU_CONF: &#123; // 所有的菜单配置，都要在 MENU_CONF 属性下</span><br><span class="line">          &#x27;uploadImage&#x27;: &#123;</span><br><span class="line">            maxFileSize: 0.2 * 1024 * 1024, // 200k</span><br><span class="line">            onBeforeUpload(file) &#123;</span><br><span class="line">              return file</span><br><span class="line">              // 可以 return</span><br><span class="line">              // 1. return file 或者 new 一个 file ，接下来将上传</span><br><span class="line">              // 2. return false ，不上传这个 file</span><br><span class="line">            &#125;,</span><br><span class="line">            // 用户自定义上传图片</span><br><span class="line">            customUpload(file, insertFn) &#123;</span><br><span class="line">              const isLs200 = file.size / 1024 / 1024 &lt; 0.2</span><br><span class="line">              if (!isLs200) &#123;</span><br><span class="line">                Vue.prototype.$message.error(&#x27;上传失败,图片大小不可超过200KB!&#x27;)</span><br><span class="line">                return false</span><br><span class="line">              &#125;</span><br><span class="line">              const axios = require(&#x27;axios&#x27;)</span><br><span class="line">              const data = new FormData()</span><br><span class="line">              data.append(&#x27;files&#x27;, file)</span><br><span class="line">              const config = &#123;</span><br><span class="line">                method: &#x27;post&#x27;,</span><br><span class="line">                url: &#x27;/operationsLog/uploadImage&#x27;, // 上传图片地址</span><br><span class="line">                headers: &#123;</span><br><span class="line">                  &#x27;Content-Type&#x27;: &#x27;multipart/form-data&#x27;,</span><br><span class="line">                  &#x27;access-token&#x27;: wsCache.get(&#x27;userInfo&#x27;).data.token</span><br><span class="line">                &#125;,</span><br><span class="line">                data: data</span><br><span class="line">              &#125;</span><br><span class="line">              axios(config)</span><br><span class="line">                .then(function(res) &#123;</span><br><span class="line">                  const url = &#x27;https://220.160.52.164:8217/file/&#x27; + res.data.data.image1 // 拼接成可浏览的图片地址</span><br><span class="line">                  insertFn(url, res.data.data.image1, url) // 插入图片</span><br><span class="line">                &#125;)</span><br><span class="line">                .catch(function(error) &#123;</span><br><span class="line">                  console.log(error)</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;,</span><br><span class="line">          &#x27;uploadVideo&#x27;: &#123;</span><br><span class="line">            customUpload(file, insertFn) &#123;</span><br><span class="line">              const axios = require(&#x27;axios&#x27;)</span><br><span class="line">              const data = new FormData()</span><br><span class="line">              data.append(&#x27;file&#x27;, file) // file 即选中的文件</span><br><span class="line">              const config = &#123;</span><br><span class="line">                method: &#x27;post&#x27;,</span><br><span class="line">                url: &#x27;/api/operationsLog/uploadVideo&#x27;, // 上传图片地址</span><br><span class="line">                headers: &#123;</span><br><span class="line">                  &#x27;Content-Type&#x27;: &#x27;multipart/form-data&#x27;,</span><br><span class="line">                  &#x27;access-token&#x27;: wsCache.get(&#x27;userInfo&#x27;).data.token</span><br><span class="line">                &#125;,</span><br><span class="line">                data: data</span><br><span class="line">              &#125;</span><br><span class="line">              axios(config)</span><br><span class="line">                .then(function(res) &#123;</span><br><span class="line">                  const url = res.data.data.video // 拼接成可浏览的图片地址</span><br><span class="line">                  insertFn(url, url) // 插入图片</span><br><span class="line">                &#125;)</span><br><span class="line">                .catch(function(error) &#123;</span><br><span class="line">                  console.log(error)</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      mode: &#x27;default&#x27; // or &#x27;simple&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  watch: &#123;</span><br><span class="line">    html(val) &#123;</span><br><span class="line">      this.$nextTick(() =&gt; &#123;</span><br><span class="line">        console.log(this.html,&#x27;html&#x27;)</span><br><span class="line">        const editor = this.editor</span><br><span class="line">        editor.setHtml(this.html)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">    deep: true</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    this.$nextTick(() =&gt; &#123;</span><br><span class="line">      this.$nextTick(() =&gt; &#123;</span><br><span class="line">        const editor = this.editor</span><br><span class="line">        editor.setHtml(this.value)</span><br><span class="line">        if (this.isEdit) &#123;</span><br><span class="line">          editor.enable()</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          editor.disable()</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  beforeDestroy() &#123;</span><br><span class="line">    const editor = this.editor</span><br><span class="line">    if (editor == null) return</span><br><span class="line">    editor.destroy() // 组件销毁时，及时销毁 editor ，重要！！！</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    onCreated(editor) &#123;</span><br><span class="line">      this.editor = Object.seal(editor) // 【注意】一定要用 Object.seal() 否则会报错</span><br><span class="line">    &#125;,</span><br><span class="line">    onChange(editor) &#123;</span><br><span class="line">      //  console.log(&quot;工具栏配置&quot;, editor.getAllMenuKeys());</span><br><span class="line">      // 获取附件资源</span><br><span class="line">      const imgUrls = editor.getElemsByType(&#x27;image&#x27;)</span><br><span class="line">      const videoUrls = editor.getElemsByType(&#x27;video&#x27;)</span><br><span class="line">      const filePathArr = []</span><br><span class="line">      const ipUrl = &#x27;https://220.160.52.164:8217/file/&#x27;</span><br><span class="line">      imgUrls.map(item =&gt; &#123;</span><br><span class="line">        const imgObj = &#123;&#125;</span><br><span class="line">        imgObj.filePath = item.src.split(ipUrl)[1]</span><br><span class="line">        imgObj.fileStatus = &#x27;0&#x27;</span><br><span class="line">        if (this.isEdit) &#123;</span><br><span class="line">          imgObj.operationsLogId = this.operationsLogId</span><br><span class="line">        &#125;</span><br><span class="line">        filePathArr.push(imgObj)</span><br><span class="line">      &#125;)</span><br><span class="line">      videoUrls.map(item =&gt; &#123;</span><br><span class="line">        const videoObj = &#123;&#125;</span><br><span class="line">        videoObj.filePath = item.src</span><br><span class="line">        videoObj.fileStatus = &#x27;1&#x27;</span><br><span class="line">        filePathArr.push(videoObj)</span><br><span class="line">      &#125;)</span><br><span class="line">      const obj = &#123;&#125;</span><br><span class="line">      // obj.content = editor.getText()     // 纯文本</span><br><span class="line">      obj.value = editor.getHtml() // 富文本</span><br><span class="line">      if (filePathArr.length === 0) &#123; // 图片路径</span><br><span class="line">        obj.richTextList = null</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        obj.richTextList = filePathArr</span><br><span class="line">      &#125;</span><br><span class="line">      // obj.isEmpty = editor.isEmpty()</span><br><span class="line">      obj.txt = editor.getText().replace(/[\r\n]/g, &#x27;&#x27;).replace(/\ +/g, &#x27;&#x27;)</span><br><span class="line">      this.$emit(&#x27;changeContent&#x27;, obj)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;style src=&quot;@wangeditor/editor/dist/css/style.css&quot;&gt;&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>toolbarKeys.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> toolbarKeys = [</span><br><span class="line">  <span class="string">&#x27;bold&#x27;</span>, <span class="comment">// 粗体</span></span><br><span class="line">  <span class="string">&#x27;underline&#x27;</span>, <span class="comment">// 下划线</span></span><br><span class="line">  <span class="string">&#x27;italic&#x27;</span>, <span class="comment">// 斜体</span></span><br><span class="line">  <span class="string">&#x27;through&#x27;</span>, <span class="comment">// 删除线</span></span><br><span class="line">  <span class="string">&#x27;code&#x27;</span>, <span class="comment">// 行内代码</span></span><br><span class="line">  <span class="string">&#x27;sub&#x27;</span>, <span class="comment">// 下标</span></span><br><span class="line">  <span class="string">&#x27;sup&#x27;</span>, <span class="comment">// 上标</span></span><br><span class="line">  <span class="string">&#x27;clearStyle&#x27;</span>, <span class="comment">// 清除格式</span></span><br><span class="line">  <span class="string">&#x27;color&#x27;</span>, <span class="comment">// 文字颜色</span></span><br><span class="line">  <span class="string">&#x27;bgColor&#x27;</span>, <span class="comment">// 背景色</span></span><br><span class="line">  <span class="string">&#x27;fontSize&#x27;</span>, <span class="comment">//  字号</span></span><br><span class="line">  <span class="string">&#x27;fontFamily&#x27;</span>, <span class="comment">// 字体</span></span><br><span class="line">  <span class="string">&#x27;indent&#x27;</span>, <span class="comment">// 增加缩进</span></span><br><span class="line">  <span class="string">&#x27;delIndent&#x27;</span>, <span class="comment">// 减少缩进</span></span><br><span class="line">  <span class="string">&#x27;justifyLeft&#x27;</span>, <span class="comment">// 左对齐</span></span><br><span class="line">  <span class="string">&#x27;justifyRight&#x27;</span>, <span class="comment">// 右对齐</span></span><br><span class="line">  <span class="string">&#x27;justifyCenter&#x27;</span>, <span class="comment">// 居中对齐</span></span><br><span class="line">  <span class="string">&#x27;justifyJustify&#x27;</span>, <span class="comment">// 两端对齐</span></span><br><span class="line">  <span class="string">&#x27;lineHeight&#x27;</span>, <span class="comment">// 行高</span></span><br><span class="line">  <span class="string">&#x27;insertImage&#x27;</span>, <span class="comment">// 网络图片</span></span><br><span class="line">  <span class="string">&#x27;deleteImage&#x27;</span>, <span class="comment">// 删除图片</span></span><br><span class="line">  <span class="string">&#x27;editImage&#x27;</span>, <span class="comment">// 编辑图片</span></span><br><span class="line">  <span class="string">&#x27;viewImageLink&#x27;</span>, <span class="comment">// 查看链接</span></span><br><span class="line">  <span class="string">&#x27;imageWidth30&#x27;</span>, <span class="comment">// 图片比例30%</span></span><br><span class="line">  <span class="string">&#x27;imageWidth50&#x27;</span>, <span class="comment">// 图片比例50%</span></span><br><span class="line">  <span class="string">&#x27;imageWidth100&#x27;</span>, <span class="comment">// 图片比例100%</span></span><br><span class="line">  <span class="string">&#x27;divider&#x27;</span>, <span class="comment">// 分割线</span></span><br><span class="line">  <span class="string">&#x27;emotion&#x27;</span>, <span class="comment">// 表情</span></span><br><span class="line">  <span class="string">&#x27;insertLink&#x27;</span>, <span class="comment">// 插入链接</span></span><br><span class="line">  <span class="string">&#x27;editLink&#x27;</span>, <span class="comment">// 修改链接</span></span><br><span class="line">  <span class="string">&#x27;unLink&#x27;</span>, <span class="comment">// 取消链接</span></span><br><span class="line">  <span class="string">&#x27;viewLink&#x27;</span>, <span class="comment">// 查看链接</span></span><br><span class="line">  <span class="string">&#x27;codeBlock&#x27;</span>, <span class="comment">// 代码块</span></span><br><span class="line">  <span class="string">&#x27;blockquote&#x27;</span>, <span class="comment">// 应用</span></span><br><span class="line">  <span class="string">&#x27;headerSelect&#x27;</span>, <span class="comment">// 正文</span></span><br><span class="line">  <span class="string">&#x27;header1&#x27;</span>, <span class="comment">// H1</span></span><br><span class="line">  <span class="string">&#x27;header2&#x27;</span>, <span class="comment">// H2</span></span><br><span class="line">  <span class="string">&#x27;header3&#x27;</span>, <span class="comment">// H3</span></span><br><span class="line">  <span class="string">&#x27;header4&#x27;</span>, <span class="comment">// H4</span></span><br><span class="line">  <span class="string">&#x27;header5&#x27;</span>, <span class="comment">// H5</span></span><br><span class="line">  <span class="string">&#x27;todo&#x27;</span>, <span class="comment">// 代办</span></span><br><span class="line">  <span class="string">&#x27;redo&#x27;</span>, <span class="comment">// 重做</span></span><br><span class="line">  <span class="string">&#x27;undo&#x27;</span>, <span class="comment">// 撤销</span></span><br><span class="line">  <span class="string">&#x27;fullScreen&#x27;</span>, <span class="comment">// 全屏</span></span><br><span class="line">  <span class="string">&#x27;enter&#x27;</span>, <span class="comment">// 回车</span></span><br><span class="line">  <span class="string">&#x27;bulletedList&#x27;</span>, <span class="comment">// 无序列表</span></span><br><span class="line">  <span class="string">&#x27;numberedList&#x27;</span>, <span class="comment">// 有序列表</span></span><br><span class="line">  <span class="string">&#x27;insertTable&#x27;</span>, <span class="comment">// 插入表格</span></span><br><span class="line">  <span class="string">&#x27;deleteTable&#x27;</span>, <span class="comment">// 删除表格</span></span><br><span class="line">  <span class="string">&#x27;insertTableRow&#x27;</span>, <span class="comment">// 插入行</span></span><br><span class="line">  <span class="string">&#x27;deleteTableRow&#x27;</span>, <span class="comment">// 删除行</span></span><br><span class="line">  <span class="string">&#x27;insertTableCol&#x27;</span>, <span class="comment">// 插入列</span></span><br><span class="line">  <span class="string">&#x27;deleteTableCol&#x27;</span>, <span class="comment">// 删除列</span></span><br><span class="line">  <span class="string">&#x27;tableHeader&#x27;</span>, <span class="comment">// 表头</span></span><br><span class="line">  <span class="string">&#x27;tableFullWidth&#x27;</span>, <span class="comment">// 宽度自适应</span></span><br><span class="line">  <span class="string">&#x27;insertVideo&#x27;</span>, <span class="comment">// 插入视频</span></span><br><span class="line">  <span class="string">&#x27;uploadVideo&#x27;</span>, <span class="comment">// 上传视频</span></span><br><span class="line">  <span class="string">&#x27;editVideoSize&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;uploadImage&#x27;</span>, <span class="comment">// 上传图片</span></span><br><span class="line">  <span class="string">&#x27;codeSelectLang&#x27;</span><span class="comment">// 选择语言</span></span><br><span class="line">]</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> toolbarKeys</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Components/" rel="tag"># Components</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/02/27/%E8%87%AA%E5%8A%A8%E5%AF%BC%E5%85%A5/" rel="next" title="自动导入">
+                <i class="fa fa-chevron-left"></i> 自动导入
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="1Chen1y1111" />
+            
+              <p class="site-author-name" itemprop="name">1Chen1y1111</p>
+              <p class="site-description motion-element" itemprop="description">悲伤的海</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/">
+              
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/1Chen1y1111" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/1Chen1y1111" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">1Chen1y1111</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
