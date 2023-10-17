@@ -81,15 +81,15 @@
 
 
 
-<meta name="description" content="基于simple-uploader.js的文件切片上传等 安装依赖   npm install vue-simple-uploader --save   npm install spark-md5 --save   特性  支持文件、多文件、文件夹上传 支持拖拽文件、文件夹上传 统一对待文件和文件夹，方便操作管理 可暂停、继续上传 错误处理 支持“快传”，通过文件判断服务端是否已存在从而实现“快传">
+<meta name="description" content="安装依赖   npm install vue-simple-uploader --save   npm install spark-md5 --save   特性  支持文件、多文件、文件夹上传 支持拖拽文件、文件夹上传 统一对待文件和文件夹，方便操作管理 可暂停、继续上传 错误处理 支持“快传”，通过文件判断服务端是否已存在从而实现“快传” 上传队列管理，支持最大并发上传 分块上传 支持进度、预">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于simple-uploader.js的文件切片上传等">
 <meta property="og:url" content="http://example.com/2023/10/10/%E5%9F%BA%E4%BA%8Esimple-uploader.js%E7%9A%84%E6%96%87%E4%BB%B6%E5%88%87%E7%89%87%E4%B8%8A%E4%BC%A0%E7%AD%89/index.html">
 <meta property="og:site_name" content="CavsCy&#39;s Blog">
-<meta property="og:description" content="基于simple-uploader.js的文件切片上传等 安装依赖   npm install vue-simple-uploader --save   npm install spark-md5 --save   特性  支持文件、多文件、文件夹上传 支持拖拽文件、文件夹上传 统一对待文件和文件夹，方便操作管理 可暂停、继续上传 错误处理 支持“快传”，通过文件判断服务端是否已存在从而实现“快传">
+<meta property="og:description" content="安装依赖   npm install vue-simple-uploader --save   npm install spark-md5 --save   特性  支持文件、多文件、文件夹上传 支持拖拽文件、文件夹上传 统一对待文件和文件夹，方便操作管理 可暂停、继续上传 错误处理 支持“快传”，通过文件判断服务端是否已存在从而实现“快传” 上传队列管理，支持最大并发上传 分块上传 支持进度、预">
 <meta property="og:locale">
 <meta property="article:published_time" content="2023-10-10T10:42:48.000Z">
-<meta property="article:modified_time" content="2023-10-10T10:45:00.945Z">
+<meta property="article:modified_time" content="2023-10-17T13:01:45.971Z">
 <meta property="article:author" content="1Chen1y1111">
 <meta property="article:tag" content="Upload">
 <meta name="twitter:card" content="summary">
@@ -354,8 +354,7 @@
       
 
       
-        <h2 id="基于simple-uploader-js的文件切片上传等">基于simple-uploader.js的文件切片上传等</h2>
-<h5 id="安装依赖">安装依赖</h5>
+        <h5 id="安装依赖">安装依赖</h5>
 <ul>
 <li>
 <p><code>npm install vue-simple-uploader --save</code></p>
@@ -468,6 +467,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2023/10/17/%E6%89%AB%E7%A0%81%E7%99%BB%E5%BD%95/" rel="prev" title="扫码登录">
+                扫码登录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -547,7 +550,7 @@
               
                 <a href="/">
               
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -558,7 +561,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -569,7 +572,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -625,7 +628,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Esimple-uploader-js%E7%9A%84%E6%96%87%E4%BB%B6%E5%88%87%E7%89%87%E4%B8%8A%E4%BC%A0%E7%AD%89"><span class="nav-number">1.</span> <span class="nav-text">基于simple-uploader.js的文件切片上传等</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">安装依赖</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%B9%E6%80%A7"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">特性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Code"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">Code</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Description"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">Description</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="nav-number">1.</span> <span class="nav-text">安装依赖</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%B9%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">特性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Code"><span class="nav-number">3.</span> <span class="nav-text">Code</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Description"><span class="nav-number">4.</span> <span class="nav-text">Description</span></a></li></ol></div>
             
 
           </div>

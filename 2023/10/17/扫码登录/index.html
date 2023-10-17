@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Scan,Qrcode," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="CavsCy's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="原理概述  PC端生成二维码，然后通过不断轮询，查询当前二维码状态 App里扫码拿到qrcode_id,根据用户操作调用不同的修改二维码状态接口 通过轮询接口的返回值进行登录等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="扫码登录">
+<meta property="og:url" content="http://example.com/2023/10/17/%E6%89%AB%E7%A0%81%E7%99%BB%E5%BD%95/index.html">
+<meta property="og:site_name" content="CavsCy&#39;s Blog">
+<meta property="og:description" content="原理概述  PC端生成二维码，然后通过不断轮询，查询当前二维码状态 App里扫码拿到qrcode_id,根据用户操作调用不同的修改二维码状态接口 通过轮询接口的返回值进行登录等">
+<meta property="og:locale">
+<meta property="article:published_time" content="2023-10-17T13:00:04.000Z">
+<meta property="article:modified_time" content="2023-10-17T13:02:06.970Z">
+<meta property="article:author" content="1Chen1y1111">
+<meta property="article:tag" content="Scan">
+<meta property="article:tag" content="Qrcode">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2023/10/17/扫码登录/"/>
+
+
+
+
+
+  <title>扫码登录 | CavsCy's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CavsCy's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">改变的确很难,但结果值得冒险</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/10/17/%E6%89%AB%E7%A0%81%E7%99%BB%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="1Chen1y1111">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CavsCy's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">扫码登录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2023-10-17T21:00:04+08:00">
+                2023-10-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Scan/" itemprop="url" rel="index">
+                    <span itemprop="name">Scan</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Scan/Qrcode/" itemprop="url" rel="index">
+                    <span itemprop="name">Qrcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="原理概述">原理概述</h5>
+<ul>
+<li>PC端生成二维码，然后通过不断轮询，查询当前二维码状态</li>
+<li><code>App</code>里扫码拿到<code>qrcode_id</code>,根据用户操作调用不同的修改二维码状态接口</li>
+<li>通过轮询接口的返回值进行登录等</li>
+</ul>
+<span id="more"></span>
+<h5 id="nest服务">nest服务</h5>
+<ul>
+<li><code>npm install -g @nestjs/cli</code></li>
+<li><code>nest new qrcode-demo</code></li>
+<li><code>npm install qrcode @types/qrcode</code></li>
+<li><code>npm install @nestjs/jwt</code></li>
+</ul>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pp.module.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Module</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppController</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./app.controller&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./app.service&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">JwtModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/jwt&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Module</span>(&#123;</span><br><span class="line">  <span class="attr">imports</span>: [</span><br><span class="line">    <span class="title class_">JwtModule</span>.<span class="title function_">register</span>(&#123;</span><br><span class="line">      <span class="attr">secret</span>: <span class="string">&#x27;cy&#x27;</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">controllers</span>: [<span class="title class_">AppController</span>],</span><br><span class="line">  <span class="attr">providers</span>: [<span class="title class_">AppService</span>],</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AppModule</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// app.controller.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">BadRequestException</span>, <span class="title class_">Controller</span>, <span class="title class_">Get</span>, <span class="title class_">Headers</span>, <span class="title class_">Inject</span>, <span class="title class_">Query</span>, <span class="title class_">UnauthorizedException</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./app.service&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; randomUUID &#125; <span class="keyword">from</span> <span class="string">&#x27;crypto&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> qrcode <span class="keyword">from</span> <span class="string">&#x27;qrcode&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">JwtService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/jwt&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> map = <span class="keyword">new</span> <span class="title class_">Map</span>&lt;<span class="built_in">string</span>, <span class="title class_">QrCodeInfo</span>&gt;();</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">QrCodeInfo</span> &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="string">&#x27;noscan&#x27;</span> | <span class="string">&#x27;scan-wait-confirm&#x27;</span> | <span class="string">&#x27;scan-confirm&#x27;</span> | <span class="string">&#x27;scan-cancel&#x27;</span> | <span class="string">&#x27;expired&#x27;</span>,</span><br><span class="line">  userInfo?: &#123;</span><br><span class="line">    <span class="attr">userId</span>: <span class="built_in">number</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// noscan 未扫描</span></span><br><span class="line"><span class="comment">// scan-wait-confirm -已扫描，等待用户确认</span></span><br><span class="line"><span class="comment">// scan-confirm 已扫描，用户同意授权</span></span><br><span class="line"><span class="comment">// scan-cancel 已扫描，用户取消授权</span></span><br><span class="line"><span class="comment">// expired 已过期</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AppController</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"><span class="keyword">private</span> <span class="keyword">readonly</span> appService: AppService</span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Get</span>()</span><br><span class="line">  <span class="title function_">getHello</span>(): <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">appService</span>.<span class="title function_">getHello</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Get</span>(<span class="string">&#x27;qrcode/generate&#x27;</span>)</span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">generate</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> uuid = <span class="title function_">randomUUID</span>();</span><br><span class="line">    <span class="keyword">const</span> dataUrl = <span class="keyword">await</span> qrcode.<span class="title function_">toDataURL</span>(<span class="string">`http://192.168.2.110:3000/pages/confirm.html?id=<span class="subst">$&#123;uuid&#125;</span>`</span>);</span><br><span class="line"></span><br><span class="line">    map.<span class="title function_">set</span>(<span class="string">`qrcode_<span class="subst">$&#123;uuid&#125;</span>`</span>, &#123;</span><br><span class="line">      <span class="attr">status</span>: <span class="string">&#x27;noscan&#x27;</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">qrcode_id</span>: uuid,</span><br><span class="line">      <span class="attr">img</span>: dataUrl</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Get</span>(<span class="string">&#x27;qrcode/check&#x27;</span>)</span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">check</span>(<span class="params"><span class="meta">@Query</span>(<span class="string">&#x27;id&#x27;</span>) id: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> info = map.<span class="title function_">get</span>(<span class="string">`qrcode_<span class="subst">$&#123;id&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">if</span> (info.<span class="property">status</span> === <span class="string">&#x27;scan-confirm&#x27;</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">token</span>: <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="property">jwtService</span>.<span class="title function_">sign</span>(&#123;</span><br><span class="line">          <span class="attr">userId</span>: info.<span class="property">userInfo</span>.<span class="property">userId</span></span><br><span class="line">        &#125;),</span><br><span class="line">        ...info</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> info;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Get</span>(<span class="string">&#x27;qrcode/scan&#x27;</span>)</span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">scan</span>(<span class="params"><span class="meta">@Query</span>(<span class="string">&#x27;id&#x27;</span>) id: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> info = map.<span class="title function_">get</span>(<span class="string">`qrcode_<span class="subst">$&#123;id&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">if</span> (!info) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">BadRequestException</span>(<span class="string">&#x27;二维码已过期&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    info.<span class="property">status</span> = <span class="string">&#x27;scan-wait-confirm&#x27;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;success&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Get</span>(<span class="string">&#x27;qrcode/confirm&#x27;</span>)</span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">confirm</span>(<span class="params"><span class="meta">@Query</span>(<span class="string">&#x27;id&#x27;</span>) id: <span class="built_in">string</span>, <span class="meta">@Headers</span>(<span class="string">&#x27;Authorization&#x27;</span>) auth: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> user;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> [, token] = auth.<span class="title function_">split</span>(<span class="string">&#x27; &#x27;</span>);</span><br><span class="line">      <span class="keyword">const</span> info = <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="property">jwtService</span>.<span class="title function_">verify</span>(token);</span><br><span class="line"></span><br><span class="line">      user = <span class="variable language_">this</span>.<span class="property">users</span>.<span class="title function_">find</span>(<span class="function"><span class="params">item</span> =&gt;</span> item.<span class="property">id</span> == info.<span class="property">userId</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UnauthorizedException</span>(<span class="string">&#x27;token 过期，请重新登录&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> info = map.<span class="title function_">get</span>(<span class="string">`qrcode_<span class="subst">$&#123;id&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">if</span> (!info) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">BadRequestException</span>(<span class="string">&#x27;二维码已过期&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    info.<span class="property">status</span> = <span class="string">&#x27;scan-confirm&#x27;</span>;</span><br><span class="line">    info.<span class="property">userInfo</span> = user;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;success&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Get</span>(<span class="string">&#x27;qrcode/cancel&#x27;</span>)</span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">cancel</span>(<span class="params"><span class="meta">@Query</span>(<span class="string">&#x27;id&#x27;</span>) id: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> info = map.<span class="title function_">get</span>(<span class="string">`qrcode_<span class="subst">$&#123;id&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">if</span> (!info) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">BadRequestException</span>(<span class="string">&#x27;二维码已过期&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    info.<span class="property">status</span> = <span class="string">&#x27;scan-cancel&#x27;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;success&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Inject</span>(<span class="title class_">JwtService</span>)</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">jwtService</span>: <span class="title class_">JwtService</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> users = [</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">username</span>: <span class="string">&#x27;cy&#x27;</span>, <span class="attr">password</span>: <span class="string">&#x27;123456&#x27;</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">2</span>, <span class="attr">username</span>: <span class="string">&#x27;cny&#x27;</span>, <span class="attr">password</span>: <span class="string">&#x27;123456&#x27;</span> &#125;,</span><br><span class="line">  ];</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Get</span>(<span class="string">&#x27;login&#x27;</span>)</span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">login</span>(<span class="params"><span class="meta">@Query</span>(<span class="string">&#x27;username&#x27;</span>) username: <span class="built_in">string</span>, <span class="meta">@Query</span>(<span class="string">&#x27;password&#x27;</span>) password: <span class="built_in">string</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> user = <span class="variable language_">this</span>.<span class="property">users</span>.<span class="title function_">find</span>(<span class="function"><span class="params">item</span> =&gt;</span> item.<span class="property">username</span> === username);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!user) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UnauthorizedException</span>(<span class="string">&#x27;用户不存在&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (user.<span class="property">password</span> !== password) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UnauthorizedException</span>(<span class="string">&#x27;密码错误&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">token</span>: <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="property">jwtService</span>.<span class="title function_">sign</span>(&#123;</span><br><span class="line">        <span class="attr">userId</span>: user.<span class="property">id</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Get</span>(<span class="string">&#x27;userInfo&#x27;</span>)</span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">userInfo</span>(<span class="params"><span class="meta">@Headers</span>(<span class="string">&#x27;Authorization&#x27;</span>) auth: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> [, token] = auth.<span class="title function_">split</span>(<span class="string">&#x27; &#x27;</span>);</span><br><span class="line">      <span class="keyword">const</span> info = <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="property">jwtService</span>.<span class="title function_">verify</span>(token);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">const</span> user = <span class="variable language_">this</span>.<span class="property">users</span>.<span class="title function_">find</span>(<span class="function"><span class="params">item</span> =&gt;</span> item.<span class="property">id</span> == info.<span class="property">userId</span>);</span><br><span class="line">      <span class="keyword">return</span> user;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UnauthorizedException</span>(<span class="string">&#x27;token 过期，请重新登录&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="vue">vue</h5>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Login.vue</span></span><br><span class="line"><span class="comment">// 二维码</span></span><br><span class="line"><span class="keyword">const</span> qrCodeBase64 = <span class="title function_">ref</span>(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="comment">// 扫码状态</span></span><br><span class="line"><span class="keyword">const</span> scanStatus = <span class="title function_">ref</span>(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> timer;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 开启轮询</span></span><br><span class="line">axios.<span class="title function_">get</span>(<span class="string">&#x27;local/qrcode/generate&#x27;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">    qrCodeBase64.<span class="property">value</span> = res.<span class="property">data</span>.<span class="property">img</span></span><br><span class="line">    <span class="title function_">queryStatus</span>(res.<span class="property">data</span>.<span class="property">qrcode_id</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">queryStatus</span>(<span class="params">id</span>) &#123;</span><br><span class="line">  axios.<span class="title function_">get</span>(<span class="string">&#x27;local/qrcode/check?id=&#x27;</span> + id).<span class="title function_">then</span>(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> status = res.<span class="property">data</span>.<span class="property">status</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> content = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    <span class="keyword">switch</span> (status) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;noscan&#x27;</span>: content = <span class="string">&#x27;未扫码&#x27;</span>; <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;scan-wait-confirm&#x27;</span>: content = <span class="string">&#x27;已扫码，等待确认&#x27;</span>; <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;scan-confirm&#x27;</span>: &#123;</span><br><span class="line">        content = <span class="string">&#x27;已确认，当前登录用户：&#x27;</span> + res.<span class="property">data</span>.<span class="property">userInfo</span>.<span class="property">username</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&#x27;scan-cancel&#x27;</span>: content = <span class="string">&#x27;已取消&#x27;</span>; <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    scanStatus.<span class="property">value</span> = status</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;content: &#x27;</span>, content,status);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (status === <span class="string">&#x27;noscan&#x27;</span> || status === <span class="string">&#x27;scan-cancel&#x27;</span> || status === <span class="string">&#x27;scan-wait-confirm&#x27;</span>) &#123;</span><br><span class="line">      timer = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="title function_">queryStatus</span>(id), <span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="qrCodeCom">qrCodeCom</h5>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup lang=&quot;ts&quot;&gt;</span><br><span class="line">import Motion from &#x27;../utils/motion&#x27;</span><br><span class="line">import SuccessSvg from &#x27;@/assets/svg/success.svg?component&#x27;</span><br><span class="line">import RefreshOffIcon from &#x27;@iconify-icons/material-symbols/refresh-rounded&#x27;</span><br><span class="line"></span><br><span class="line">const props = defineProps(&#123;</span><br><span class="line">  qrCodeBase64: &#123;</span><br><span class="line">    type: String,</span><br><span class="line">    default: &#x27;&#x27;</span><br><span class="line">  &#125;,</span><br><span class="line">  scanStatus: &#123;</span><br><span class="line">    type: String,</span><br><span class="line">    default: &#x27;noscan&#x27;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 扫码状态</span><br><span class="line">enum SCANSTATUS &#123;</span><br><span class="line">  NOSCAN = &#x27;noscan&#x27;, // 未扫描</span><br><span class="line">  SCANWAITCONFIRM = &#x27;scan-wait-confirm&#x27;, // 已扫描，等待用户确认</span><br><span class="line">  SCANCONFIRM = &#x27;scan-confirm&#x27;, // 已扫描，用户同意授权</span><br><span class="line">  SCANCANCEL = &#x27;scan-cancel&#x27;, // 已扫描，用户取消授权</span><br><span class="line">  EXPIRED = &#x27;expired&#x27;, // 已过期</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;Motion&gt;</span><br><span class="line">    &lt;div class=&quot;qrcode flex-c mb-5&quot;&gt;</span><br><span class="line">      &lt;div class=&quot;qrcode-qr&quot;&gt;</span><br><span class="line">        &lt;img :src=&quot;qrCodeBase64&quot; width=&quot;180&quot;&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">      &lt;div class=&quot;qrcode-mask&quot; :class=&quot;[ scanStatus === SCANSTATUS.EXPIRED ? &#x27;expired&#x27; : &#x27;&#x27;, (scanStatus !== SCANSTATUS.NOSCAN &amp;&amp; scanStatus !== SCANSTATUS.SCANCANCEL) ? &#x27;bg-[#fff]&#x27; : &#x27;&#x27;]&quot;&gt;</span><br><span class="line">        &lt;div v-if=&quot;scanStatus === SCANSTATUS.SCANWAITCONFIRM&quot; class=&quot;qrcode-result&quot;&gt;</span><br><span class="line">          &lt;SuccessSvg /&gt;</span><br><span class="line">          扫码成功</span><br><span class="line">          &lt;div&gt;请用手机授权登录&lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div v-if=&quot;scanStatus === SCANSTATUS.SCANCONFIRM&quot; class=&quot;qrcode-result&quot;&gt;</span><br><span class="line">          &lt;SuccessSvg /&gt;</span><br><span class="line">          登录成功</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">        &lt;div v-if=&quot;scanStatus === SCANSTATUS.EXPIRED&quot; class=&quot;qrcode-result cursor-pointer text-[#fff]&quot;&gt;</span><br><span class="line">          二维码已过期</span><br><span class="line">          &lt;p class=&quot;flex-c&quot;&gt;</span><br><span class="line">            &lt;IconifyIconOffline :icon=&quot;RefreshOffIcon&quot; class=&quot;mr-1&quot; /&gt;</span><br><span class="line">            点击刷新</span><br><span class="line">          &lt;/p&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;flex justify-center text-[18px] text-[#fff]&quot;&gt;</span><br><span class="line">      &lt;img class=&quot;mr-2&quot;</span><br><span class="line">        src=&quot;https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/e0ff12435b30910520c9a3aac9b90487.svg&quot;</span><br><span class="line">        width=&quot;20&quot; /&gt;</span><br><span class="line">      使用微信扫一扫登录</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/Motion&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;scss&quot;&gt;</span><br><span class="line">.qrcode &#123;</span><br><span class="line">  position: relative;</span><br><span class="line"></span><br><span class="line">  &amp;-qr &#123;</span><br><span class="line">    width: 180px;</span><br><span class="line">    height: 180px;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &amp;-mask &#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    width: 180px;</span><br><span class="line">    height: 180px;</span><br><span class="line">    display: flex;</span><br><span class="line">    flex-direction: column;</span><br><span class="line">    align-items: center;</span><br><span class="line">    justify-content: center;</span><br><span class="line">    opacity: .9;</span><br><span class="line">    color: #181818;</span><br><span class="line">    font-size: 16px;</span><br><span class="line">    line-height: 22px;</span><br><span class="line">    text-align: center;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &amp;-result &#123;</span><br><span class="line">    user-select: none;</span><br><span class="line"></span><br><span class="line">    &amp;&gt;svg &#123;</span><br><span class="line">      display: inline-block;</span><br><span class="line">      vertical-align: middle;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.expired &#123;</span><br><span class="line">  background: rgba(0, 0, 0, 0.5);</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Scan/" rel="tag"># Scan</a>
+          
+            <a href="/tags/Qrcode/" rel="tag"># Qrcode</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/10/10/%E5%9F%BA%E4%BA%8Esimple-uploader.js%E7%9A%84%E6%96%87%E4%BB%B6%E5%88%87%E7%89%87%E4%B8%8A%E4%BC%A0%E7%AD%89/" rel="next" title="基于simple-uploader.js的文件切片上传等">
+                <i class="fa fa-chevron-left"></i> 基于simple-uploader.js的文件切片上传等
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2023/10/17/%E5%89%8D%E7%AB%AF%E5%9F%8B%E7%82%B9%E7%9B%91%E6%8E%A7/" rel="prev" title="前端埋点监控">
+                前端埋点监控 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="1Chen1y1111" />
+            
+              <p class="site-author-name" itemprop="name">1Chen1y1111</p>
+              <p class="site-description motion-element" itemprop="description">悲伤的海</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/1Chen1y1111" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/1Chen1y1111" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">原理概述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#nest%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.</span> <span class="nav-text">nest服务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#vue"><span class="nav-number">3.</span> <span class="nav-text">vue</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#qrCodeCom"><span class="nav-number">4.</span> <span class="nav-text">qrCodeCom</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">1Chen1y1111</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

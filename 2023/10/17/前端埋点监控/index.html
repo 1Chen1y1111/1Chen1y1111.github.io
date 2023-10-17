@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="埋点监控," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="CavsCy's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="埋点  针对特定用户行为或事件进行捕获、处理和发送的相关技术及其实施过程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端埋点监控">
+<meta property="og:url" content="http://example.com/2023/10/17/%E5%89%8D%E7%AB%AF%E5%9F%8B%E7%82%B9%E7%9B%91%E6%8E%A7/index.html">
+<meta property="og:site_name" content="CavsCy&#39;s Blog">
+<meta property="og:description" content="埋点  针对特定用户行为或事件进行捕获、处理和发送的相关技术及其实施过程">
+<meta property="og:locale">
+<meta property="article:published_time" content="2023-10-17T15:02:56.000Z">
+<meta property="article:modified_time" content="2023-10-17T13:04:23.254Z">
+<meta property="article:author" content="1Chen1y1111">
+<meta property="article:tag" content="埋点监控">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2023/10/17/前端埋点监控/"/>
+
+
+
+
+
+  <title>前端埋点监控 | CavsCy's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CavsCy's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">改变的确很难,但结果值得冒险</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/10/17/%E5%89%8D%E7%AB%AF%E5%9F%8B%E7%82%B9%E7%9B%91%E6%8E%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="1Chen1y1111">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CavsCy's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">前端埋点监控</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2023-10-17T23:02:56+08:00">
+                2023-10-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%8B%E7%82%B9%E7%9B%91%E6%8E%A7/" itemprop="url" rel="index">
+                    <span itemprop="name">埋点监控</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>埋点</p>
+<ul>
+<li>针对特定用户行为或事件进行捕获、处理和发送的相关技术及其实施过程</li>
+</ul>
+<span id="more"></span>
+<h5 id="基于Ajax的埋点上报">基于Ajax的埋点上报</h5>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">buryingPointAjax</span>(<span class="params">data</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 创建ajax请求</span></span><br><span class="line">        <span class="keyword">const</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>()</span><br><span class="line">        <span class="comment">// 定义请求接口</span></span><br><span class="line">        xhr.<span class="title function_">open</span>(<span class="string">&#x27;post&#x27;</span>,<span class="string">&#x27;/buryingPoint&#x27;</span>,<span class="literal">true</span>)</span><br><span class="line">        <span class="comment">// 发送数据</span></span><br><span class="line">        xhr.<span class="title function_">send</span>()</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// use</span></span><br><span class="line"><span class="keyword">let</span> info = &#123;&#125;</span><br><span class="line"><span class="title function_">buryingPointAjax</span>(info)</span><br></pre></td></tr></table></figure>
+<p>缺点</p>
+<ul>
+<li>埋点域名有可能不是当前域名，因此请求会存在跨域风险</li>
+</ul>
+<h5 id="基于img的埋点上报">基于<code>img</code>的埋点上报</h5>
+<p>通过支持跨域的标签去实现数据上报功能</p>
+<p><code>script</code>   <code>link</code></p>
+<ul>
+<li>script、link 进行埋点上报，需要挂载到页面上，但反复操作<code>dom</code>会造成性能开销，并且载入<code>js/css</code>资源会阻塞页面渲染，影响用户体验</li>
+</ul>
+<p><code>img</code></p>
+<ul>
+<li><code>img</code>加载并不需要挂载到页面上，通过new Image，设置<code>src</code>可以直接请求图片</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> img = <span class="keyword">new</span> <span class="title class_">Image</span>()</span><br><span class="line">img.<span class="property">src</span> = <span class="string">&quot;https://www.baidu.com/assets/png/test.png&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>img </code>的加载不会阻塞<code>html</code>的解析，但<code>img</code>加载后并不渲染，它需要等待render tree生成完后才和render tree 一起渲染出来</li>
+<li>通常埋点上报会使用<code>gif</code>图，<code>合法的GIF只需要43个字节</code></li>
+</ul>
+<h5 id="基于Navigator-sendBeacon-的埋点上报">基于<code>Navigator.sendBeacon </code>的埋点上报</h5>
+<ul>
+<li>它是目前通用的埋点上报方案，该方法可用于通过HTTP POST将少量数据异步传输到Web服务器</li>
+<li><code>navigator.sendBeacon(url,data)</code>
+<ul>
+<li><code>url</code>：请求地址</li>
+<li><code>data</code>：数据类型</li>
+</ul>
+</li>
+<li><code>navigator.sendBeacon </code>如果成功进入浏览器的发送队列后，会返回true；如果受到队列总数、数据大小的限制后，会返回false。返回true后，只是表示进入了发送队列，浏览器会尽力保证发送成功，但是否成功了，不会再有任何返回值。</li>
+<li><code>navigator.sendBeacon</code>是异步的，不会影响当前页到下一个页面的跳转速度，且不受同域限制。这个方法还是异步发出请求，但是请求与当前页面脱离关联，作为浏览器的任务，因此可以保证会把数据发出去，不拖延卸载流程</li>
+</ul>
+<h2 id="常见埋点行为">常见埋点行为</h2>
+<h5 id="点击触发埋点">点击触发埋点</h5>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">clickButton</span>(<span class="params">url,data</span>) &#123;</span><br><span class="line">    navigator.<span class="title function_">sendBeacon</span>(url, data)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="页面停留时间上报埋点">页面停留时间上报埋点</h5>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 路由文件中，初始化一个startTime，当页面离开时，通过路由守卫计算停留时间</span></span><br><span class="line"><span class="keyword">let</span> url = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">let</span> startTime = <span class="title class_">Date</span>.<span class="title function_">now</span>()</span><br><span class="line"><span class="keyword">let</span> currentTime = <span class="string">&#x27;&#x27;</span></span><br><span class="line">router.<span class="title function_">beforeEach</span>(<span class="function">(<span class="params">to,<span class="keyword">from</span>,next</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(to) &#123;</span><br><span class="line">        currentTime = <span class="title class_">Date</span>.<span class="title function_">now</span>()</span><br><span class="line">        <span class="comment">// 停留时间</span></span><br><span class="line">        stayTime = <span class="built_in">parseInt</span>(currentTime - startTime)</span><br><span class="line">        navigator.<span class="title function_">sendBeacon</span>(url,&#123;</span><br><span class="line">            <span class="attr">time</span>:stayTime</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h5 id="错误监听埋点">错误监听埋点</h5>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vue错误捕获</span></span><br><span class="line">app.<span class="property">config</span>.<span class="property">errorHandler</span> = <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">	navigator.<span class="title function_">sendBeacon</span>(url,&#123;</span><br><span class="line">        <span class="attr">error</span>:error.<span class="property">message</span>,</span><br><span class="line">        <span class="attr">text</span>:<span class="string">&#x27;一些错误信息&#x27;</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// js异常与静态资源加载异常</span></span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;error&#x27;</span>,<span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(error.<span class="property">message</span>) &#123;</span><br><span class="line">        navigator.<span class="title function_">sendBeacon</span>(url, &#123;</span><br><span class="line">        	<span class="attr">error</span>:error.<span class="property">message</span>,</span><br><span class="line">        	<span class="attr">text</span>:<span class="string">&#x27;一些JS错误信息&#x27;</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        navigator.<span class="title function_">sendBeacon</span>(url, &#123;</span><br><span class="line">        	<span class="attr">error</span>:error.<span class="property">message</span>,</span><br><span class="line">        	<span class="attr">text</span>:<span class="string">&#x27;一些资源错误信息&#x27;</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 请求错误捕获</span></span><br><span class="line">axios.<span class="property">interceptors</span>.<span class="property">response</span>.<span class="title function_">use</span>(</span><br><span class="line">    <span class="function">(<span class="params">response</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(response.<span class="property">code</span> == <span class="number">200</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="title class_">Promise</span>.<span class="title function_">resolve</span>(response)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="title class_">Promise</span>.<span class="title function_">reject</span>(response)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 返回错误逻辑</span></span><br><span class="line">        navigator.<span class="title function_">sendBeacon</span>(url,&#123;</span><br><span class="line">        	<span class="attr">error</span>:error.<span class="property">message</span>,</span><br><span class="line">        	<span class="attr">text</span>:<span class="string">&#x27;一些请求错误信息&#x27;</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 内容可见埋点</span></span><br><span class="line"><span class="comment">// 通过交叉观察器去监听当前元素是否出现在页面</span></span><br><span class="line"><span class="comment">// 可见性发生变化后的回调 </span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">callback</span>(<span class="params">data</span>) &#123; </span><br><span class="line">    navigator.<span class="title function_">sendBeacon</span>(url, &#123; <span class="attr">target</span>: data[<span class="number">0</span>].<span class="property">target</span>, <span class="attr">text</span>: <span class="string">&#x27;内容可见&#x27;</span> &#125;) </span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">// 交叉观察器配置项 </span></span><br><span class="line"><span class="keyword">let</span> options = &#123;&#125;; </span><br><span class="line"><span class="comment">// 生成交叉观察器 </span></span><br><span class="line"><span class="keyword">const</span> observer = <span class="keyword">new</span> <span class="title class_">IntersectionObserver</span>(callback); </span><br><span class="line"><span class="comment">// 获取目标节点 </span></span><br><span class="line"><span class="keyword">let</span> target = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;target&quot;</span>); </span><br><span class="line"><span class="comment">// 监听目标元素 </span></span><br><span class="line">observer.<span class="title function_">observe</span>(target);</span><br></pre></td></tr></table></figure>
+<h2 id="方法封装">方法封装</h2>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ajax上报</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">sendAjax</span>(<span class="params">&#123; req:<span class="string">&#x27;&#x27;</span>,params &#125;: reportParams</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>&lt;bolean&gt;(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (req) &#123;</span><br><span class="line">            <span class="title function_">postInfoApi</span>(req, params)</span><br><span class="line">            .<span class="title function_">then</span>(<span class="function">() =&gt;</span> <span class="title function_">resolve</span>(<span class="literal">true</span>))</span><br><span class="line">            .<span class="title function_">catch</span>(<span class="function">() =&gt;</span> <span class="title function_">reject</span>(<span class="literal">false</span>))</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="title function_">reject</span>(<span class="literal">false</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// img 上报</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">sendImg</span>(<span class="params">&#123; img=<span class="string">&#x27;&#x27;</span>,params &#125;: reportParams</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>&lt;boolean&gt;(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> imageData = <span class="title function_">objectToQueryString</span>(params)</span><br><span class="line">        <span class="keyword">const</span> _img = <span class="keyword">new</span> <span class="title class_">Image</span>()</span><br><span class="line">        _img.<span class="property">onload</span> = <span class="function">() =&gt;</span> <span class="title function_">resolve</span>(<span class="literal">true</span>)</span><br><span class="line">        _img.<span class="property">onerror</span> = <span class="function">() =&gt;</span> <span class="title function_">reject</span>(<span class="literal">false</span>)</span><br><span class="line">        _img.<span class="property">src</span> = <span class="string">`<span class="subst">$&#123;img&#125;</span>?<span class="subst">$&#123;imageData&#125;</span>`</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// sendBeacon上报</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">sendBeacon</span>(<span class="params">&#123; url=<span class="string">&#x27;&#x27;</span>,params &#125;:reportParams</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span>(navigator?.<span class="property">sendBeacon</span> &amp;&amp; url) &#123;</span><br><span class="line">        <span class="keyword">const</span> isSuccess = <span class="keyword">await</span> navigator?.<span class="title function_">sendBeacon</span>(url, <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(params))</span><br><span class="line">        <span class="keyword">if</span>(!isSuccess) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 最终导出</span></span><br><span class="line"><span class="comment">// 基础上报函数</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">reportEvent</span>(<span class="params">params: reportParams, reportType:string[] = [IMG, BEACON, AJAX]</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> finalType = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> reportType) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!finalType) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">await</span> <span class="variable constant_">EVENT_REPORT_FUNCTION_MAP</span>[key](params).<span class="title function_">then</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">                    finalType = <span class="literal">true</span></span><br><span class="line">                &#125;)</span><br><span class="line">            &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">error</span>(error)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> finalType</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%9F%8B%E7%82%B9%E7%9B%91%E6%8E%A7/" rel="tag"># 埋点监控</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/10/17/%E6%89%AB%E7%A0%81%E7%99%BB%E5%BD%95/" rel="next" title="扫码登录">
+                <i class="fa fa-chevron-left"></i> 扫码登录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="1Chen1y1111" />
+            
+              <p class="site-author-name" itemprop="name">1Chen1y1111</p>
+              <p class="site-description motion-element" itemprop="description">悲伤的海</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/1Chen1y1111" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/1Chen1y1111" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EAjax%E7%9A%84%E5%9F%8B%E7%82%B9%E4%B8%8A%E6%8A%A5"><span class="nav-number">1.</span> <span class="nav-text">基于Ajax的埋点上报</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Eimg%E7%9A%84%E5%9F%8B%E7%82%B9%E4%B8%8A%E6%8A%A5"><span class="nav-number">2.</span> <span class="nav-text">基于img的埋点上报</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8ENavigator-sendBeacon-%E7%9A%84%E5%9F%8B%E7%82%B9%E4%B8%8A%E6%8A%A5"><span class="nav-number">3.</span> <span class="nav-text">基于Navigator.sendBeacon 的埋点上报</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%9F%8B%E7%82%B9%E8%A1%8C%E4%B8%BA"><span class="nav-number"></span> <span class="nav-text">常见埋点行为</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%82%B9%E5%87%BB%E8%A7%A6%E5%8F%91%E5%9F%8B%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">点击触发埋点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A1%B5%E9%9D%A2%E5%81%9C%E7%95%99%E6%97%B6%E9%97%B4%E4%B8%8A%E6%8A%A5%E5%9F%8B%E7%82%B9"><span class="nav-number">2.</span> <span class="nav-text">页面停留时间上报埋点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E7%9B%91%E5%90%AC%E5%9F%8B%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">错误监听埋点</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%B0%81%E8%A3%85"><span class="nav-number"></span> <span class="nav-text">方法封装</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">1Chen1y1111</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
