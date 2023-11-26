@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="React," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="CavsCy's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="setState其他用法  setState(&amp;#123;&amp;#125;) setState((state,props)&#x3D;&gt; &amp;#123; return &amp;#123;&amp;#125; &amp;#125;) setState(updater,callback)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React(二)">
+<meta property="og:url" content="http://example.com/2023/11/27/React1-2/index.html">
+<meta property="og:site_name" content="CavsCy&#39;s Blog">
+<meta property="og:description" content="setState其他用法  setState(&amp;#123;&amp;#125;) setState((state,props)&#x3D;&gt; &amp;#123; return &amp;#123;&amp;#125; &amp;#125;) setState(updater,callback)">
+<meta property="og:locale">
+<meta property="article:published_time" content="2023-11-26T17:32:56.000Z">
+<meta property="article:modified_time" content="2023-11-26T17:34:11.576Z">
+<meta property="article:author" content="1Chen1y1111">
+<meta property="article:tag" content="React">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2023/11/27/React1-2/"/>
+
+
+
+
+
+  <title>React(二) | CavsCy's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CavsCy's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">改变的确很难,但结果值得冒险</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/27/React1-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="1Chen1y1111">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CavsCy's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">React(二)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2023-11-27T01:32:56+08:00">
+                2023-11-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="setState其他用法">setState其他用法</h5>
+<ul>
+<li><code>setState(&#123;&#125;)</code></li>
+<li><code>setState((state,props)=&gt; &#123; return &#123;&#125; &#125;)</code></li>
+<li><code>setState(updater,callback)</code></li>
+</ul>
+<span id="more"></span>
+<h5 id="React为什么使用setState">React为什么使用setState</h5>
+<ul>
+<li>
+<p>React并没有实现类似于Vue2中的Object.defineProperty或者Vue3中的Proxy的方式来监听数据的变化</p>
+</li>
+<li>
+<p>必须通过setState来告知React数据已经发生变化</p>
+</li>
+<li>
+<p>setState方法是从React.Component中继承</p>
+</li>
+<li>
+<p>异步调用</p>
+<ul>
+<li>批量更新，提升性能</li>
+</ul>
+</li>
+<li>
+<p>本次更新会加入队列中queue</p>
+</li>
+<li>
+<p>两个优势</p>
+<ul>
+<li>多个updater放在同一次更新中，执行一次render函数，提高性能</li>
+<li>保证在state没有被更新的时候，state、props保持一致</li>
+</ul>
+</li>
+<li>
+<p>setState一定是异步的吗？</p>
+<ul>
+<li>
+<p>在react18之前</p>
+<ul>
+<li>setTimeout/Promise.then回调/原生DOM事件回调中是同步的</li>
+</ul>
+</li>
+<li>
+<p>在react18开始</p>
+<ul>
+<li>setTimeout/Promise.then回调/原生DOM事件回调中也变成批量处理</li>
+<li>flushSync( ()=&gt; {} ) 强制 React 刷新任何挂起的工作并同步更新 DOM</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="React的更新流程">React的更新流程</h5>
+<ul>
+<li>props、state发生改变</li>
+<li>render函数重新执行</li>
+<li>生成新的DOM树</li>
+<li>新旧DOM数进行diff</li>
+<li>计算出差异进行更新</li>
+<li>更新到真实的DOM</li>
+</ul>
+<h5 id="Render函数被调用">Render函数被调用</h5>
+<ul>
+<li>render函数的优化
+<ul>
+<li>shouldComponentUpdate（SCU）
+<ul>
+<li>参数1：nextProps</li>
+<li>参数2：nextState</li>
+<li>返回true 调用当前组件的render函数、默认返回true</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>PureComponent
+<ul>
+<li>类组件继承</li>
+<li>自动对state、props进行判断修改</li>
+<li>浅层比较 <code>shallowEqual</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>,&#123; <span class="title class_">PureComponent</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Chidlren</span> <span class="keyword">extends</span> <span class="title class_ inherited__">PureComponent</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>()</span><br><span class="line">        </span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">state</span> = &#123;</span><br><span class="line">            <span class="attr">str</span>:<span class="string">&#x27;&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;&gt;</span></span></span><br><span class="line"><span class="language-xml">         hello,PureComponent</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/&gt;</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>函数组件没有声明周期
+<ul>
+<li>memo 作用等同于 PureComponent</li>
+</ul>
+</li>
+<li>在props没有改变时，不希望重新渲染期DOM树结构</li>
+</ul>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; memo &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Children</span> = <span class="title function_">memo</span>(<span class="keyword">function</span>(<span class="params">props</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;&gt;</span>hello,memo<span class="tag">&lt;/&gt;</span></span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h5 id="state应该是不可变的">state应该是不可变的</h5>
+<ul>
+<li>修改state中的某一个数据（引用类型）
+<ul>
+<li>先拷贝其数据，修改拷贝对象，设置新对象</li>
+</ul>
+</li>
+</ul>
+<h5 id="ref获取DOM">ref获取DOM</h5>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 三种获取DOM的方法</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123; <span class="title class_">PureComponent</span>, createRef &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">Children</span> <span class="keyword">extends</span> <span class="title class_ inherited__">PureComponent</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>()</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">state</span> = &#123;</span><br><span class="line">      <span class="attr">divRef1</span>: <span class="variable language_">this</span>.<span class="property">ref</span>.<span class="property">divRef1</span>,  <span class="comment">// 已废弃</span></span><br><span class="line">      <span class="attr">divRef2</span>: <span class="title function_">createRef</span>(), <span class="comment">// this.state.divRef2.current</span></span><br><span class="line">      <span class="attr">divRef3</span>: <span class="literal">null</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">ref</span>=<span class="string">&#x27;divRef1&#x27;</span>&gt;</span>hello,ref1<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">ref</span>=<span class="string">&#123;this.state.divRef2&#125;</span>&gt;</span>hello,ref2<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">ref</span>=<span class="string">&#123;el</span> =&gt;</span> this.state.divRef3 = el&#125;&gt;hello,ref3<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">Children</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>ref不能应用于函数式组件
+<ul>
+<li>因为函数式组件没有实例，所以不能获取到对应的组件对象</li>
+<li>可以通过forwardRef</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 转发</span></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Home</span> = <span class="title function_">forwarRef</span>(<span class="keyword">function</span>(<span class="params">props,ref</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">h2</span> <span class="attr">ref</span>=<span class="string">&#123;ref&#125;</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h5 id="受控组件">受控组件</h5>
+<ul>
+<li>被React以state方式控制取值的表单输入元素就叫做受控组件</li>
+</ul>
+<h5 id="非受控组件">非受控组件</h5>
+<ul>
+<li>表单数据交给DOM节点来处理</li>
+<li>ref获取元素</li>
+</ul>
+<h5 id="高阶组件">高阶组件</h5>
+<ul>
+<li>HOC Higher-Order Components</li>
+<li>参数为组件，返回值为新组件的函数</li>
+<li>props增强</li>
+<li>context增强</li>
+</ul>
+<h5 id="Portals的使用">Portals的使用</h5>
+<ul>
+<li>如果希望渲染的内容独立于父组件，甚至是独立于当前挂载到的DOM元素中</li>
+</ul>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createPortal &#125; <span class="keyword">from</span> <span class="string">&quot;react-dom&quot;</span>;</span><br><span class="line">        </span><br><span class="line"><span class="title function_">createPortal</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">Children4</span>/&gt;</span></span>,<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#cy&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<h5 id="fragement">fragement</h5>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">Fragement</span>&gt;&lt;<span class="regexp">/Fragement&gt; /</span><span class="regexp">/ 需要绑定key的时候不能省</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;&gt;&lt;/</span>&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="StrictMode">StrictMode</h5>
+<ul>
+<li>识别不安全的声明周期</li>
+<li>使用过时的ref API</li>
+<li>检查意外的副作用
+<ul>
+<li>这个组件的constructor会被调用两次</li>
+</ul>
+</li>
+<li>使用废弃的findDOMNode方法</li>
+<li>检测过时的context API</li>
+</ul>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">StrictMode</span>&gt;</span><br><span class="line"> <span class="language-xml"><span class="tag">&lt;<span class="name">App</span>/&gt;</span></span></span><br><span class="line">&lt;/<span class="title class_">StrictMode</span>&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="过渡动画">过渡动画</h5>
+<ul>
+<li>react-transition-group</li>
+<li>CSSTransition
+<ul>
+<li>-enter</li>
+<li>-enter-done</li>
+</ul>
+</li>
+<li>unmountOnExit={true}
+<ul>
+<li>该组件会在执行退出动画结束后被移除掉</li>
+</ul>
+</li>
+<li>当in为true时，触发进入状态</li>
+<li>当in为false时，触发退出状态</li>
+<li>timeout 移除时间</li>
+<li>appear 首次出现添加动画
+<ul>
+<li>-appear</li>
+</ul>
+</li>
+<li>onEnter | onEntering | onEntered 钩子函数</li>
+</ul>
+<h5 id="css">css</h5>
+<ul>
+<li>内联样式
+<ul>
+<li>style接收一个采用小驼峰命名属性的JS对象，而不是CSS字符串</li>
+</ul>
+</li>
+<li>普通CSS
+<ul>
+<li>没有单独作用域，样式冲突</li>
+</ul>
+</li>
+<li>CSS Modules
+<ul>
+<li>不能使用连接符  <code>appStyle.my-title</code></li>
+<li>所有的className都必须使用{style.className}的形式来编写
+<ul>
+<li>不方便动态修改某些样式，依然需要使用内联样式</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">App</span>.<span class="property">module</span>.<span class="property">css</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> appStyle <span class="keyword">from</span> <span class="string">&#x27;./App.module.css&#x27;</span></span><br><span class="line"></span><br><span class="line">&lt;div style=&#123;appStyle.<span class="property">title</span>&#125;&gt;hello&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>CSS -in-JS  第三方库
+<ul>
+<li>
+<p>styled-components</p>
+</li>
+<li>
+<p>emotion-js/emotion</p>
+</li>
+<li>
+<p>glamorous</p>
+</li>
+<li>
+<p>classnames</p>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/10/18/React1-1/" rel="next" title="React(一)">
+                <i class="fa fa-chevron-left"></i> React(一)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="1Chen1y1111" />
+            
+              <p class="site-author-name" itemprop="name">1Chen1y1111</p>
+              <p class="site-description motion-element" itemprop="description">悲伤的海</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/1Chen1y1111" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/1Chen1y1111" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#setState%E5%85%B6%E4%BB%96%E7%94%A8%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">setState其他用法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#React%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8setState"><span class="nav-number">2.</span> <span class="nav-text">React为什么使用setState</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#React%E7%9A%84%E6%9B%B4%E6%96%B0%E6%B5%81%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">React的更新流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Render%E5%87%BD%E6%95%B0%E8%A2%AB%E8%B0%83%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">Render函数被调用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#state%E5%BA%94%E8%AF%A5%E6%98%AF%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%9A%84"><span class="nav-number">5.</span> <span class="nav-text">state应该是不可变的</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ref%E8%8E%B7%E5%8F%96DOM"><span class="nav-number">6.</span> <span class="nav-text">ref获取DOM</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%97%E6%8E%A7%E7%BB%84%E4%BB%B6"><span class="nav-number">7.</span> <span class="nav-text">受控组件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9D%9E%E5%8F%97%E6%8E%A7%E7%BB%84%E4%BB%B6"><span class="nav-number">8.</span> <span class="nav-text">非受控组件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%AB%98%E9%98%B6%E7%BB%84%E4%BB%B6"><span class="nav-number">9.</span> <span class="nav-text">高阶组件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Portals%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">10.</span> <span class="nav-text">Portals的使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#fragement"><span class="nav-number">11.</span> <span class="nav-text">fragement</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#StrictMode"><span class="nav-number">12.</span> <span class="nav-text">StrictMode</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB"><span class="nav-number">13.</span> <span class="nav-text">过渡动画</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#css"><span class="nav-number">14.</span> <span class="nav-text">css</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">1Chen1y1111</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
